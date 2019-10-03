@@ -43,7 +43,7 @@ public class Aggregator {
     words
         .groupBy((key, word) -> word)
         .windowedBy(TimeWindows.of(TimeUnit.SECONDS.toMillis(10)))
-        .count()
+        .count(Materialized.as("windowed-counts"))
         .toStream()
         .process(PostgresSink::new);
 
